@@ -664,3 +664,138 @@ section h2 {
         transform: none;
     }
 }
+
+/* Responsive Design Updates */
+@media (max-width: 1024px) {
+    .projects-grid, .certs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .terminal-prompt {
+        width: 80%;
+        right: 10%;
+        left: 10%;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0.8rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1rem;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+    }
+
+    nav.active ul {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        color: var(--terminal-text);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .center-name h1 {
+        font-size: 2rem;
+    }
+
+    .center-name p {
+        font-size: 1rem;
+    }
+
+    .projects-grid, .certs-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .skill-category, .project, .cert, .award-card {
+        padding: 1rem;
+    }
+
+    .image-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .social-links {
+        right: 1rem;
+    }
+
+    .terminal-prompt {
+        width: 95%;
+        height: 80vh;
+        right: 2.5%;
+        left: 2.5%;
+        bottom: 10vh;
+    }
+
+    .terminal-toggle {
+        bottom: 1rem;
+        right: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 0 1rem;
+    }
+
+    .image-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .award-card {
+        grid-template-columns: 1fr;
+    }
+
+    .social-links {
+        position: fixed;
+        bottom: 1rem;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        top: auto;
+        gap: 1.5rem;
+    }
+
+    .terminal-prompt {
+        font-size: 14px;
+    }
+
+    .skill-category-header h3 {
+        font-size: 1rem;
+    }
+
+    .skill-item {
+        font-size: 0.8rem;
+    }
+}
+
+/* Add touch-friendly interactions */
+@media (hover: none) {
+    .skill-category:hover,
+    .project:hover,
+    .cert:hover,
+    .award-card:hover {
+        transform: none;
+    }
+
+    .gallery-image:active,
+    .cert-image:active {
+        transform: scale(1.02);
+    }
+}

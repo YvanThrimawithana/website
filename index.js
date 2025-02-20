@@ -1,4 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Add mobile navigation toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('nav');
+    
+    navToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
+
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+        }
+    });
+
+    // Add touch support for gallery images
+    const galleryImages = document.querySelectorAll('.gallery-image, .cert-image');
+    galleryImages.forEach(img => {
+        img.addEventListener('touchstart', () => {
+            img.style.transform = 'scale(1.02)';
+        });
+        img.addEventListener('touchend', () => {
+            img.style.transform = 'scale(1)';
+        });
+    });
+
+    // Handle window resize for terminal
+    const adjustTerminalSize = () => {
+        const terminal = document.querySelector('.terminal-prompt');
+        if (window.innerWidth <= 768) {
+            terminal.style.width = '95%';
+            terminal.style.height = '80vh';
+        } else {
+            terminal.style.width = '600px';
+            terminal.style.height = '400px';
+        }
+    };
+
+    window.addEventListener('resize', adjustTerminalSize);
+    adjustTerminalSize();
+
     // Add smooth scrolling for navigation links
     document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', (e) => {
