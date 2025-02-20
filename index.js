@@ -222,13 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="terminal-content"></div>
         `;
 
-        toggle.addEventListener('click', () => {
-            terminal.style.display = terminal.style.display === 'none' ? 'block' : 'none';
-            if (terminal.style.display === 'block') {
-                terminal.querySelector('.terminal-input')?.focus();
-            }
-        });
-
         const createNewPrompt = () => {
             const line = document.createElement('div');
             line.className = 'terminal-input-line';
@@ -349,7 +342,94 @@ document.addEventListener('DOMContentLoaded', () => {
                 lightbox.classList.remove('active');
             }
         });
+
+        // Better touch handling for gallery
+        const handleTouchStart = (e) => {
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        };
+
+        const handleTouchMove = (e) => {
+            if (!touchStartX || !touchStartY) return;
+
+            const touch = e.touches[0];
+            const diffX = touchStartX - touch.clientX;
+            const diffY = touchStartY - touch.clientY;
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Horizontal swipe
+                if (diffX > 0) {
+                    // Swipe left - next image
+                    document.querySelector('.lightbox-next')?.click();
+                } else {
+                    // Swipe right - previous image
+                    document.querySelector('.lightbox-prev')?.click();
+                }
+            }
+
+            touchStartX = null;
+            touchStartY = null;
+        };
+
+        document.querySelector('.lightbox')?.addEventListener('touchstart', handleTouchStart);
+        document.querySelector('.lightbox')?.addEventListener('touchmove', handleTouchMove);
     };
 
     createLightbox();
+
+    const enhanceMobileExperience = () => {
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+            });
+        });
+
+        // Improve scroll performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (window.scrollY > 100) {
+                        document.querySelector('nav').classList.add('scrolled');
+                    } else {
+                        document.querySelector('nav').classList.remove('scrolled');
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    };
+
+    enhanceMobileExperience();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const terminalToggle = document.querySelector('.terminal-toggle');
+    const terminalPrompt = document.querySelector('.terminal-prompt');
+    let isTerminalVisible = false;
+
+    terminalToggle.addEventListener('click', function() {
+        isTerminalVisible = !isTerminalVisible;
+        if (isTerminalVisible) {
+            terminalPrompt.classList.add('active');
+            terminalToggle.textContent = '× Close';
+        } else {
+            terminalPrompt.classList.remove('active');
+            terminalToggle.textContent = '> Terminal';
+        }
+    });
+
+    // Close terminal when clicking outside
+    document.addEventListener('click', function(event) {
+        if (isTerminalVisible && 
+            !terminalPrompt.contains(event.target) && 
+            !terminalToggle.contains(event.target)) {
+            isTerminalVisible = false;
+            terminalPrompt.classList.remove('active');
+            terminalToggle.textContent = '> Terminal';
+        }
+    });
 });
